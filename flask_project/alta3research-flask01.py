@@ -29,7 +29,7 @@ def answer():
                 return redirect(url_for("success", answer = ans))
         # complete the line below; if we didn't get returned to /success for getting the answer right, return the client back to / or /start to try again
             else:
-                return redirect(url_for('/'))
+                return redirect(url_for('start'))
    
 
 if __name__ == "__main__":

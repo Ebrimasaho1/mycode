@@ -4,6 +4,7 @@ from flask import redirect
 from flask import request
 from flask import render_template
 from flask import url_for
+from flask import jsonify
 app = Flask(__name__)
 
 ## This is where we want to redirect users to
@@ -31,6 +32,25 @@ def answer():
             else:
                 return redirect(url_for('start'))
    
+
+#json object
+gotdata = [{
+            'name': 'Game of Thrones',
+            'genre': 'fantasy', 
+            'country': 'USA', 
+            'number of seasons': 8, 
+            'language': 'English',
+            }]
+
+
+
+# end point that returns json
+@app.route("/json", methods = ["GET"])
+def json():
+    return jsonify(gotdata)
+
+
+
 
 if __name__ == "__main__":
    app.run(host="0.0.0.0", port=2224) # runs the application

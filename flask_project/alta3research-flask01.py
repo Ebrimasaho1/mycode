@@ -40,7 +40,28 @@ gotdata = [{
             'country': 'USA', 
             'number of seasons': 8, 
             'language': 'English',
-            }]
+            },
+            {
+             'name' : 'Tywin',
+             'house' : 'House Lannister',
+             'age' : 55  
+            },
+            {
+             'name' : 'Tyrion',
+             'house' : 'House Lannister',
+             'age' : 26  
+            },
+            {
+             'name' : 'Ramsey Bolton',
+             'house' : 'House Bolton',
+             'age' : 22  
+            },
+            {
+             'name' : 'Ned Stark',
+             'house' : 'House Stark',
+             'age' : 41  
+            },
+            ]
 
 
 

@@ -5,12 +5,14 @@ from flask import request
 from flask import render_template
 from flask import url_for
 from flask import jsonify
+import json
+
 app = Flask(__name__)
 
 ## This is where we want to redirect users to
 @app.route("/success/<answer>") # missing a trailing >
 def success(answer):
-    return f"The answer is {answer}\n"
+    return f"Correct! The answer is {answer}\n"
 
 # first endpint
 # This is a landing point for users (a start)
@@ -34,7 +36,8 @@ def answer():
    
 
 #json object
-gotdata = [{
+gotdata = {
+        'characters': [{
             'name': 'Game of Thrones',
             'genre': 'fantasy', 
             'country': 'USA', 
@@ -61,14 +64,31 @@ gotdata = [{
              'house' : 'House Stark',
              'age' : 41  
             },
-            ]
+            ]}
 
 
 
 # end point that returns json
 @app.route("/json", methods = ["GET"])
-def json():
+def showmethejson():
     return jsonify(gotdata)
+
+
+# end point to add new character in dictionary
+@app.route("/newcharacter", methods = ["POST"])
+def addChar():
+    # getting the data from the request in json format
+    data = request.json
+
+    # converting data into python readable object
+    json_dict = json.loads(data)
+
+    # adding the object into the dictionary
+    gotdata['characters'].append(json_dict)
+
+                # why not return the json data instead...
+                # changed from /start to /json
+    return redirect('/json')
 
 
 

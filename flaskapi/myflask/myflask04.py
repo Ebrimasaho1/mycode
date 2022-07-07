@@ -36,6 +36,6 @@ def login():
         else: # if nm was not passed...
             user = "defaultuser" # ...then user is just defaultuser
     return redirect(url_for("success", name = user)) # pass back to /success with val for name
+
 if __name__ == "__main__":
    app.run(host="0.0.0.0", port=2224) # runs the application
-

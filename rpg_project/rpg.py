@@ -19,6 +19,9 @@ def showStatus():
   #print the player's current status
   print('---------------------------')
   print('You are in the ' + currentRoom)
+  for x in rooms[currentRoom]["edibles"]:
+    print('Edibles: ' + x)
+  print(rooms[currentRoom]["description"])
   #print the current inventory
   print('Inventory : ' + str(inventory))
   #print an item if there is one
@@ -45,7 +48,7 @@ rooms = {
                   'west'  : 'Master',
                   'item'  : ['key','statue'],
                   'edibles' : [],
-                  'description': 'Starting point of the game',
+                  'description': 'Description: Starting point of the game',
                 },
 
             'Kitchen' : {
@@ -54,7 +57,7 @@ rooms = {
                   'East'  : 'Dining Room',
                   'item'  : ['knife','bowl','lighter'],
                   'edibles' : ['steak','chicken','beans', 'rice', 'eggs'],
-                  'description': 'Contains edibles and inedibles. Player has to pick edibles to eat to gain energy',   
+                  'description': 'Description: Contains edibles and inedibles. Player has to pick edibles to eat to gain energy',   
                 },
             'Dining Room' : {
                   'west'  : 'Hall',
@@ -62,26 +65,26 @@ rooms = {
                   'north' : 'Pantry',
                   'item'  : ['potion','fruits','plates','chair','table'],
                   'edibles' : [],
-                  'description': 'Neutral ground where player can also pick potion for treatment and fruits to stay healthy',
+                  'description': 'Description: Neutral ground where player can also pick potion for treatment and fruits to stay healthy',
                },
             'Garden' : {
                   'north' : 'Dining Room',
                   'item'  : ['shovel','wheelbarrow'],
                   'edibles' : [],
-                  'description': 'Free space where player has boundless space to run away from the demogorgon',
+                  'description': 'Description: Free space where player has boundless space to run away from the demogorgon',
                },
             'Pantry' : {
                   'south' : 'Dining Room',
                   'item'  : ['cookie','chips','beans', 'spaghetti', 'dog food','secret hideout'],
                   'edibles' : [],
-                  'description': 'This has a secret hideout and player can access to hide',
+                  'description': 'Description: This has a secret hideout and player can access to hide',
             },
             'Master' : {
                    'east' : 'Hall',
                    'South': 'Kitchen', 
                    'item' : ['purse', 'gun','shoe','pants'],
                    'edibles' : [],
-                   'description': 'Has a gun! Player can decide to type command shoot gun to fight the demogorgon',
+                   'description': 'Description: Has a gun! Player can decide to type command shoot gun to fight the demogorgon',
             },
             'Balcony' : {
                    'North' : 'Hall',
@@ -89,14 +92,14 @@ rooms = {
                    'East'  : 'Dining',
                    'item'  : ['chair','table','ludo game', 'rope'],
                    'edibles' : [],
-                   'description': 'Has a rope to flee building',
+                   'description': 'Description: Has a rope to flee building',
 
             },
             'Living Room'  : {
                    'South' : 'Kitchen',
                    'item'  : ['Television','painting','PlayStation','XBOX', 'demogorgon'],
                    'edibles' : [],
-                   'description': 'This part of house is occupied by the demogorgon. Do not enter or teleport',
+                   'description': 'Description: This part of house is occupied by the demogorgon. Do not enter or teleport',
 
             },
          }
@@ -151,7 +154,9 @@ def moves():
         #display a helpful message
         print(move[1] + ' got!')
         #delete the item from the room
-        del rooms[currentRoom]['item']
+        # here's the problem-- when you use "del" to get rid of item, you get rid of the whole key pair
+        # try .remove instead
+        rooms[currentRoom]['item'].remove(move[1])
       #otherwise, if the item isn't there to get
       else:
         #tell them they can't get it
@@ -183,7 +188,7 @@ def moves():
 
     # Teleport
     if move[0] == 'teleport' and move[1] == 'to':
-      currentRoom = random.choice(rooms.keys())
+      currentRoom = random.choice(list(rooms.keys()))
       print("You Teleported")
       print(currentRoom)
 
@@ -225,5 +230,3 @@ def moves():
 
         
 moves()
-    
-

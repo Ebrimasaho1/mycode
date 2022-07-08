@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trivia</title>
-</head>
-<body>
-    <title>Please answer the following question</title>
-    <form action = "/correct" method = "POST">
+  </head>
+  <body style='background-color: grey' >
+    <div>
+      <h2>Please answer the following question</h2>
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKHjxdN-tvsBAvn5QZOqksxEwsgzz5Hap4nw&usqp=CAU"
+        alt=""
+      />
+      <form action="/correct" method="POST">
         <p>Which planet has the most gravity:</p>
-        <p><input type = "text" name = "nm"></p>
-        <p><input type = "submit" value = "submit"></p>
-    </form>
-</body>
+        <p><input type="text" name="nm" /></p>
+        <p><input type="submit" value="submit" /></p>
+      </form>
+    </div>
+  </body>
 </html>

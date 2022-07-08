@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import random
+
 # Replace RPG starter project with this code when new instructions are live
 
 def showInstructions():
@@ -43,6 +45,7 @@ rooms = {
                   'west'  : 'Master',
                   'item'  : ['key','statue'],
                   'edibles' : [],
+                  'description': 'Starting point of the game',
                 },
 
             'Kitchen' : {
@@ -50,7 +53,8 @@ rooms = {
                   'west'  : 'Master',
                   'East'  : 'Dining Room',
                   'item'  : ['knife','bowl','lighter'],
-                  'edibles' : ['steak','chicken','beans', 'rice', 'eggs']
+                  'edibles' : ['steak','chicken','beans', 'rice', 'eggs'],
+                  'description': 'Contains edibles and inedibles. Player has to pick edibles to eat to gain energy',   
                 },
             'Dining Room' : {
                   'west'  : 'Hall',
@@ -58,35 +62,42 @@ rooms = {
                   'north' : 'Pantry',
                   'item'  : ['potion','fruits','plates','chair','table'],
                   'edibles' : [],
+                  'description': 'Neutral ground where player can also pick potion for treatment and fruits to stay healthy',
                },
             'Garden' : {
                   'north' : 'Dining Room',
                   'item'  : ['shovel','wheelbarrow'],
                   'edibles' : [],
+                  'description': 'Free space where player has boundless space to run away from the demogorgon',
                },
             'Pantry' : {
                   'south' : 'Dining Room',
-                  'item'  : ['cookie','chips','beans', 'spaghetti', 'dog food'],
+                  'item'  : ['cookie','chips','beans', 'spaghetti', 'dog food','secret hideout'],
                   'edibles' : [],
+                  'description': 'This has a secret hideout and player can access to hide',
             },
             'Master' : {
                    'east' : 'Hall',
                    'South': 'Kitchen', 
                    'item' : ['purse', 'gun','shoe','pants'],
                    'edibles' : [],
-                   
+                   'description': 'Has a gun! Player can decide to type command shoot gun to fight the demogorgon',
             },
             'Balcony' : {
                    'North' : 'Hall',
                    'South' : 'Master',
                    'East'  : 'Dining',
-                   'item'  : ['chair','table','ludo game'],
+                   'item'  : ['chair','table','ludo game', 'rope'],
                    'edibles' : [],
+                   'description': 'Has a rope to flee building',
+
             },
             'Living Room'  : {
                    'South' : 'Kitchen',
-                   'item'  : ['Television','painting','PlayStation','XBOX'],
+                   'item'  : ['Television','painting','PlayStation','XBOX', 'demogorgon'],
                    'edibles' : [],
+                   'description': 'This part of house is occupied by the demogorgon. Do not enter or teleport',
+
             },
          }
 
@@ -150,16 +161,16 @@ def moves():
     if move[0] == 'eat' :
         # check if current room is kitchen and they have items in kitchen to cook
         if currentRoom == "Kitchen" and move[1] in rooms[currentRoom]['edibles']:
-            humanEnergy += 25
-            print("You ate " + move[1] + " and have " + str(humanEnergy) + " percent energy" + " to run away from the demogorgon")
-              
-      
+          humanEnergy += 25
+          print("You ate " + move[1] + " and have " + str(humanEnergy) + " percent energy" + " to run away from the demogorgon")
+            
+    
         # else, you meed to restock to be able to cook
         else:
-            humanEnergy -= 15
-            print(move[1] + " not available to eat!" " Energy level " + str(humanEnergy))
-            print("You don't have enough energy to run")
-            print("The demogorgon got you")
+          humanEnergy -= 15
+          print(move[1] + " not available to eat!" " Energy level " + str(humanEnergy))
+          print("You don't have enough energy to run")
+          print("The demogorgon got you")
 
     # master bedroom scanario
     if move[0] == 'shoot':
@@ -167,7 +178,52 @@ def moves():
       if currentRoom == "Master" and "item" in rooms[currentRoom] and move[1] in rooms[currentRoom]['item']:
         # decide to shoot the demogorgon with a specified period of time
         print("SHOOOOOOOT!")
-        print("")
+        demogorgonEnergy -= 25
+        print("Demogorgon energy: " + str(demogorgonEnergy))
 
+    # Teleport
+    if move[0] == 'teleport' and move[1] == 'to':
+      currentRoom = random.choice(rooms.keys())
+      print("You Teleported")
+      print(currentRoom)
+
+    #Win scenarios
+    if currentRoom == 'Garden' and 'key' in inventory and 'potion' in inventory:
+      print('You escaped the house with the ultra rare key and magic potion... YOU WIN!')
+      break
+
+    if currentRoom == 'Garden' and not 'key' in inventory and not 'potion' in inventory:
+      print("You didn't get a key or potion")
+      print("The beast got you...")
+      break
+
+    if humanEnergy >= 75:
+      print("You ate and gain strength to fight monster")
+      print("Your energy level is off the charts! " + str(humanEnergy))
+      print("You overpowered the demogorgon. You WIN!!!!!!!")
+      break
+
+    # if the player is in kichen and want to eat something that's not available to eat they lose and their energy goes dowm
+    elif humanEnergy < 50:
+      print("You dont have energy to fight")
+      print("You got eaten by the demogorgon")
+      print("You LOST!!")
+      break
+
+    # if player in master and has gun in inventory, if the player types shoot gun, they win
+    if currentRoom == 'Master' and 'gun' in inventory and move[0] == 'shoot' and move[1] == 'gun':
+        demogorgonEnergy -= 25
+        print("You shot the demogorgon: " + "Demogorgon Energy Level: " + str(demogorgonEnergy))
+        print("You WIN!!!")
+        print("You can now escape using the main entrace of the house")
+        break
+
+    # if player enters master and doesnt use gun to shoot they lose
+    if currentRoom == 'Master' and move[1] != 'gun':
+      print("The demogorgon devoured you...")
+      print("Game over")
+
+        
+moves()
     
 
